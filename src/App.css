@@ -36,3 +36,46 @@
     transform: rotate(360deg);
   }
 }
+
+ul {
+  width: 700px;
+  margin: 20px auto 10px;
+}
+
+li {
+  background-color: antiquewhite;
+  display: flex;
+  width: 100%;
+}
+
+li:hover {
+  background-color: rgb(243, 197, 136);
+
+}
+
+.checkbox {
+  margin: 10px;
+}
+
+.task-content {
+  margin-left: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.delete {
+  margin: 10px;
+  background-color: #ff00004f;
+  padding: 10px;
+  height: max-content;
+}
+
+.delete:hover {
+  background-color: #ff0000b9;
+  cursor: pointer;
+}
