@@ -2,27 +2,37 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import TodoList from './components/todoList';
+import { createBrowserHistory } from "history";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './components/login';
 
-function App() {
-  return (
-    <div className="App">
-      <TodoList></TodoList>
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
-    </div>
-  );
+class App extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      customHistory: createBrowserHistory(),
+      isAuthentificated: false
+    };
+  }
+
+  changeAuthFlag = (flag) => {
+    this.setState({isAuthentificated: [flag]});
+  }
+
+  render() {
+    const { state: { customHistory, username, password, isAuthentificated }, changeAuthFlag } = this;
+
+    return (
+      <div className="App">
+        <Router history={customHistory} >
+          {/* <Route path="/" component={Header} /> */}
+          <Route exact path="/tasks"  component={()=> <TodoList isAuthentificated={isAuthentificated}/>} />
+          <Route exact path="/login"  component={()=> <Login changeAuthFlag={changeAuthFlag} />} />
+
+        </Router>
+      </div>
+    );    
+  }
 }
 
 export default App;
