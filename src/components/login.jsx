@@ -45,7 +45,7 @@ class Login extends React.PureComponent {
                 <h1>Login</h1>
                 <div className="login-area">
                     <Input value={username} onChange={this.handleChangeInputText} name="username" placeholder="username..." />
-                    <Input value={password} onChange={this.handleChangeInputText} name="password" placeholder="password..." />
+                    <Input type="password" value={password} onChange={this.handleChangeInputText} name="password" placeholder="Спокойно... Это всего лишь слива" />
                     <Button className="login-button" color="success" onClick={this.handleLoginButton} >Send</Button>{' '}
                     <p className="error-message">{message}</p>
                 </div>

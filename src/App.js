@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import TodoList from './components/todoList';
 import { createBrowserHistory } from "history";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './components/login';
 
 class App extends React.PureComponent {
@@ -20,7 +20,7 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { state: { customHistory, username, password, isAuthentificated }, changeAuthFlag } = this;
+    const { state: { customHistory, isAuthentificated }, changeAuthFlag } = this;
 
     return (
       <div className="App">
