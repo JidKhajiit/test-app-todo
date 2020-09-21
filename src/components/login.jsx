@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
@@ -10,20 +11,33 @@ class Login extends React.PureComponent {
         this.state = {
             username: "",
             password: "",
-            currentUser: "podpivasnik228", 
-            currentPass: "sliva",
+            // currentUser: "podpivasnik228", 
+            // currentPass: "sliva",
             message: ""
         };
     }
 
-    handleLoginButton = () => {
+    handleLoginButton = async () => {
         const { state: { username, password, currentUser, currentPass }, props: { history, changeAuthFlag } } = this;
         console.log(this.props);
         console.log(currentUser, currentPass, username, password);
-        if (username === currentUser && password === currentPass) {
-            console.log("go!");
-            changeAuthFlag(true);
-            history.push('/tasks');
+        if (username && password) {
+            try {
+                await axios
+                    .post("https://localhost:3001/signin", {
+                        login: username,
+                        password
+                    })
+                    .then(response => {
+                        console.log(response.data)
+                        changeAuthFlag(true);
+                        history.push('/tasks');
+                    })
+                    .catch(error => console.log(error));
+            } catch {
+
+            }
+
         } else {
             this.setState({ message: "invalide username or password" });
         }
