@@ -11,35 +11,35 @@ class Login extends React.PureComponent {
         this.state = {
             username: "",
             password: "",
-            // currentUser: "podpivasnik228", 
-            // currentPass: "sliva",
             message: ""
         };
     }
 
+    showErrorMessage = (message) => {
+        this.setState({ message });
+        setTimeout(() => this.setState( { message: "" } ), 5000);
+    }
+
     handleLoginButton = async () => {
-        const { state: { username, password, currentUser, currentPass }, props: { history, changeAuthFlag } } = this;
-        console.log(this.props);
-        console.log(currentUser, currentPass, username, password);
+        const { state: { username, password }, props: { history, editAuthToken } } = this;
         if (username && password) {
+            console.log("authRequest");
             try {
-                await axios
-                    .post("https://localhost:3001/signin", {
+                console.log(username, password)
+                const response = await axios
+                    .post("http://localhost:3001/auth/signin", {
+
                         login: username,
                         password
                     })
-                    .then(response => {
-                        console.log(response.data)
-                        changeAuthFlag(true);
-                        history.push('/tasks');
-                    })
-                    .catch(error => console.log(error));
-            } catch {
-
+                editAuthToken(response.data["_id"]);
+                history.push('/tasks');
+            } catch (error) {
+                this.showErrorMessage(error.response.data);
             }
 
         } else {
-            this.setState({ message: "invalide username or password" });
+            this.showErrorMessage( "Enter username and password." );
         }
     }
 

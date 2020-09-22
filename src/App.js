@@ -9,25 +9,34 @@ import Login from './components/login';
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    const userId = localStorage.getItem('authToken');
+    const isAuthentificated = userId ? true : false;
+    console.log(userId)
+    console.log(isAuthentificated)
     this.state = {
       customHistory: createBrowserHistory(),
-      isAuthentificated: false
+      userId,
+      isAuthentificated
     };
   }
 
-  changeAuthFlag = (flag) => {
+  editAuthToken = (token) => {
+    const flag = token ? true : false;
+
+    localStorage.setItem('authToken', token);
     this.setState({isAuthentificated: [flag]});
   }
 
   render() {
-    const { state: { customHistory, isAuthentificated }, changeAuthFlag } = this;
+    const { state: { customHistory, isAuthentificated, userId }, editAuthToken } = this;
 
     return (
       <div className="App">
         <Router history={customHistory} >
           {/* <Route path="/" component={Header} /> */}
-          <Route exact path="/tasks"  component={()=> <TodoList isAuthentificated={isAuthentificated}/>} />
-          <Route exact path="/login"  component={()=> <Login changeAuthFlag={changeAuthFlag} />} />
+          <Route exact path="/tasks"  component={()=> <TodoList isAuthentificated={isAuthentificated} userId={userId}/>} />
+          <Route exact path="/login"  component={()=> <Login editAuthToken={editAuthToken} />} />
 
         </Router>
       </div>
