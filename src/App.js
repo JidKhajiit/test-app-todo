@@ -3,8 +3,9 @@ import React from 'react';
 import './App.css';
 import TodoList from './components/todoList';
 import { createBrowserHistory } from "history";
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Login from './components/login';
+import Prifile from './components/profile';
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -34,10 +35,10 @@ class App extends React.PureComponent {
     return (
       <div className="App">
         <Router history={customHistory} >
-          {/* <Route path="/" component={Header} /> */}
+          {/* <Route path="/" component={Prifile} /> */}
           <Route exact path="/tasks"  component={()=> <TodoList isAuthentificated={isAuthentificated} userId={userId}/>} />
           <Route exact path="/login"  component={()=> <Login editAuthToken={editAuthToken} />} />
-
+          <Redirect from="/" to="/tasks" />
         </Router>
       </div>
     );    

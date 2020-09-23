@@ -24,6 +24,7 @@ class TodoList extends React.PureComponent {
     }
 
     async componentDidMount() {
+        console.log("fsdfdsf")
         try {
             const { props: { userId } } = this;
             const response = await axios({
@@ -41,19 +42,20 @@ class TodoList extends React.PureComponent {
         // editAuthToken(response.data["_id"]);
     }
 
-    handleCheckTask = (id) => {
-        const newTasks = this.state.tasks.map(task => {
-            if (task.id === id) {
-                return {
-                    ...task,
-                    checked: !task.checked
-                }
-            }
-
-            return task
-        });
-        console.log(newTasks)
-        this.setState({ tasks: newTasks });
+    handleCheckTask = async (id, index) => {
+        try {
+            const { props: { userId } } = this;
+            const newTaskState = !this.state.tasks[index].checked;
+            const response = await axios.patch(`http://localhost:3001/tasks/${id}`,
+                { checked: newTaskState },
+                { headers: { authorization: userId } },
+            );
+            console.log("it's me, response!!", response.data)
+            // const newTasks = this.state.tasks.filter((task) => task['_id'] !== id)
+            this.setState({ tasks: response.data });
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     deletePost = async (id) => {
@@ -73,20 +75,32 @@ class TodoList extends React.PureComponent {
         }
     }
 
-    handleCheckAll = (event) => {
-        const newTasks = this.state.tasks.map(task => {
-            return { ...task, checked: event.target.checked }
-        });
-        this.setState({ tasks: newTasks });
+    handleCheckAll = async (event) => {
+
+        try {
+            const { props: { userId } } = this;
+            const newTaskState = event.target.checked;
+            const response = await axios.patch(`http://localhost:3001/tasks/`,
+                { checked: newTaskState },
+                { headers: { authorization: userId } },
+            );
+            console.log("it's me, response!!", response.data)
+            // const newTasks = this.state.tasks.filter((task) => task['_id'] !== id)
+            this.setState({ tasks: response.data });
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     createTasksList = (tasksArray) => tasksArray.map((task) => {
+        const taskIndex = tasksArray.indexOf(task);
+
         return (
             <li key={task['_id']}>
                 <InputGroup>
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText className="checkbox-area">
-                            <Input addon type="checkbox" className="checkbox" onChange={() => this.handleCheckTask(task['_id'])} checked={task.checked} aria-label="Checkbox for following text input" />
+                            <Input addon type="checkbox" className="checkbox" onChange={() => this.handleCheckTask(task['_id'], taskIndex)} checked={task.checked} aria-label="Checkbox for following text input" />
                         </InputGroupText>
                     </InputGroupAddon>
                     <InputGroupAddon addonType="append" className="task-text">
