@@ -207,7 +207,7 @@ class TodoList extends React.PureComponent {
 
         return (
             <div className="todo-list">
-                <h1>TODO List</h1>
+                
                 <InputGroup className="new-task-area">
                     <InputGroupAddon addonType="prepend">
                         <InputGroupText className="checkbox-area">
