@@ -20,6 +20,13 @@ class Login extends React.PureComponent {
         setTimeout(() => this.setState( { message: "" } ), 5000);
     }
 
+    componentDidMount () {
+        console.log(this.props)
+        if(this.props.isAuthentificated) {
+            this.props.history.push('/tasks')
+        }
+    }
+
     handleLoginButton = async () => {
         const { state: { username, password }, props: { history, editAuthToken } } = this;
         if (username && password) {

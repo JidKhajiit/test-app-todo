@@ -1,29 +1,36 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import '../App2.css';
 import Authorization from './Authorization';
 import { Button } from 'reactstrap';
+import { useHistory } from 'react-router-dom'
 
-const Header = function(props) {
-  const { 
-    deleteAuthToken,
-    responseAuth,
-    token,
-    info,
-    ifAuthForm,
-    loginFormToggle,
-    message,
-    showMessage,
-    renderAuthForm,
-    replaceLoginForm 
-  } = props;
+const Header = ({
+  deleteAuthToken,
+  responseAuth,
+  token,
+  info,
+  ifAuthForm,
+  loginFormToggle,
+  message,
+  showMessage,
+  renderAuthForm,
+  replaceLoginForm,
+  isAuthentificated, 
+}) => {
 
-  const buttonUserControl = (token) // && token.includes('JWT ')
+  const history = useHistory()
+
+  useEffect(() => {
+    if(isAuthentificated) history.push('/tasks')
+  }, [])
+
+  const buttonUserControl = (token)
     ? (
       <>
         <Button type="button" onClick={deleteAuthToken}>Logout</Button>
-          <p>
-            {`${info.firstName.slice(0, 1)}. ${info.lastName}`}
-          </p>
+        <p>
+          {`${info.firstName.slice(0, 1)}. ${info.lastName}`}
+        </p>
       </>
     ) : (
       <Button

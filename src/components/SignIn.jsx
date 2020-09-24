@@ -15,15 +15,11 @@ const Login = function(props) {
 
   const requestAuth = async newUser => {
     try {
-      const { current: { value: email } } = emailRef;
-      const { current: { value: password } } = passwordRef; 
+      // const { current: { value: email } } = emailRef;
+      // const { current: { value: password } } = passwordRef; 
       const response = await axios
-          .post("http://localhost:3001/auth/signin", {
-              login: email.trim(),
-              password: password.trim()
-          })
+          .post("http://localhost:3001/auth/signin", newUser)
       responseAuth(response.data);
-      // history.push('/tasks');
     } catch (error) {
         showMessage(error.response.data);
     }
@@ -37,7 +33,7 @@ const Login = function(props) {
         showMessage('You should use the Google+ button.');
       } else {
         const newUser = {
-          email: emailRef.current.value.trim(),
+          login: emailRef.current.value.trim(),
           password: passwordRef.current.value.trim(),
         };
 

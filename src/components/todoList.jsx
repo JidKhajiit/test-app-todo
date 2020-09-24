@@ -24,13 +24,14 @@ class TodoList extends React.PureComponent {
     }
 
     async componentDidMount() {
-        console.log("fsdfdsf")
+        console.log('dsfdsfdsfs')
         try {
-            const { props: { userId } } = this;
+            const { props: { token } } = this;
+            console.log("token", token);
             const response = await axios({
                 method: 'get',
                 url: 'http://localhost:3001/tasks/',
-                headers: { authorization: userId },
+                headers: { authorization: token },
             });
             console.log("it's me, response!!", response.data)
             this.setState({ tasks: response.data });
@@ -44,11 +45,11 @@ class TodoList extends React.PureComponent {
 
     handleCheckTask = async (id, index) => {
         try {
-            const { props: { userId } } = this;
+            const { props: { token } } = this;
             const newTaskState = !this.state.tasks[index].checked;
             const response = await axios.patch(`http://localhost:3001/tasks/${id}`,
                 { checked: newTaskState },
-                { headers: { authorization: userId } },
+                { headers: { authorization: token } },
             );
             console.log("it's me, response!!", response.data)
             // const newTasks = this.state.tasks.filter((task) => task['_id'] !== id)
@@ -59,13 +60,13 @@ class TodoList extends React.PureComponent {
     };
 
     deletePost = async (id) => {
-
         try {
-            const { props: { userId } } = this;
+            const { props: { token } } = this;
+            console.log("req", token)
             const response = await axios({
                 method: 'delete',
                 url: `http://localhost:3001/tasks/${id}`,
-                headers: { authorization: userId },
+                headers: { authorization: token },
             });
             console.log("it's me, response!!", response.data)
             // const newTasks = this.state.tasks.filter((task) => task['_id'] !== id)
@@ -78,11 +79,11 @@ class TodoList extends React.PureComponent {
     handleCheckAll = async (event) => {
 
         try {
-            const { props: { userId } } = this;
+            const { props: { token } } = this;
             const newTaskState = event.target.checked;
             const response = await axios.patch(`http://localhost:3001/tasks/`,
                 { checked: newTaskState },
-                { headers: { authorization: userId } },
+                { headers: { authorization: token } },
             );
             console.log("it's me, response!!", response.data)
             // const newTasks = this.state.tasks.filter((task) => task['_id'] !== id)
@@ -122,7 +123,7 @@ class TodoList extends React.PureComponent {
         if (newTaskText && (!event || event.key === "Enter")) {
 
             try {
-                const { props: { userId } } = this;
+                const { props: { token } } = this;
                 console.log(newTaskText)
                 const response = await axios.post('http://localhost:3001/tasks/newTask',
                     {
@@ -131,7 +132,7 @@ class TodoList extends React.PureComponent {
                     },
                     {
                         headers: {
-                            authorization: userId
+                            authorization: token
                         }
                     }
                 );
